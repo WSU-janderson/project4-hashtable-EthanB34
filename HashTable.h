@@ -7,6 +7,15 @@
 #include <string>
 #include <vector>
 
+class HashTableBucket {
+    enum class BucketType {NORMAL, ESS, EAR};
+    std::string key;
+    BucketType type;
+    size_t value;
+    HashTableBucket()
+    : key("'"), value(0), type(BucketType::NORMAL) {}
+};
+
 class HashTable {
 public:
     HashTable(size_t initCapacity = 8);
