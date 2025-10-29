@@ -2,9 +2,14 @@
  * HashTable.cpp
  */
 #include "HashTable.h"
+#include <string>
+#include <vector>
 
-HashTable::HashTable(size_t initCapacity) {
-
+HashTable::HashTable(size_t initCapacity)
+    : bucketData(initCapacity), probeOffsets(initCapacity-1), numElts(0)
+{
+    for (size_t i = 0; i < probeOffsets.size(); i++)
+        probeOffsets[i] = i+1;
 }
 
 bool HashTable::insert(std::string key, size_t value) {

@@ -5,15 +5,23 @@
 #define HASHTABLE_H
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 class HashTableBucket {
+public:
     enum class BucketType {NORMAL, ESS, EAR};
     std::string key;
-    BucketType type;
     size_t value;
+    BucketType type;
+
     HashTableBucket()
-    : key("'"), value(0), type(BucketType::NORMAL) {}
+    : key(), value(0), type(BucketType::ESS) {}
+
+    HashTableBucket(std::string  k, size_t v)
+        :  key(std::move(k)), value(v), type(BucketType::NORMAL) {}
+
+
 };
 
 class HashTable {
@@ -38,7 +46,10 @@ public:
     size_t size() const;
 
 
-
+private:
+    std::vector<HashTableBucket> bucketData;
+    std::vector<size_t> probeOffsets;
+    size_t numElts;
 
 
 
