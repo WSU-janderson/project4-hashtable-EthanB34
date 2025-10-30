@@ -2,14 +2,22 @@
  * HashTable.cpp
  */
 #include "HashTable.h"
+
+#include <algorithm>
+#include <ctime>
+#include <random>
 #include <string>
 #include <vector>
 
+
+
 HashTable::HashTable(size_t initCapacity)
-    : bucketData(initCapacity), probeOffsets(initCapacity-1), numElts(0)
+    : bucketData(initCapacity), numElts(0)
 {
-    for (size_t i = 0; i < probeOffsets.size(); i++)
-        probeOffsets[i] = i+1;
+    srand(time(nullptr));
+    generateProbeOffset(initCapacity);
+
+
 }
 
 bool HashTable::insert(std::string key, size_t value) {
@@ -44,4 +52,20 @@ return 0;
 
 size_t HashTable::size() const {
 return 0;
+}
+void HashTable::generateProbeOffset(size_t capacity) {
+    probeOffsets.clear();
+    for (size_t i = 1; i < capacity; i++) {
+        probeOffsets.push_back(i);
+    }
+
+    std::random_device randGen;
+    std::mt19937 gen(randGen());
+
+    std::shuffle(probeOffsets.begin(), probeOffsets.end(), gen);
+
+
+
+
+
 }

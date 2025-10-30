@@ -50,7 +50,7 @@ private:
     std::vector<HashTableBucket> bucketData;
     std::vector<size_t> probeOffsets;
     size_t numElts;
-
+    void generateProbeOffset(std::size_t capacity);
 
 
 };
