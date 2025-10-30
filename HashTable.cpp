@@ -46,14 +46,39 @@ bool HashTable::insert(std::string key, size_t value) {
     }
 return false;
 }
+//TODO
 
 bool HashTable::remove(std::string key) {
-return false;
+    const size_t cap = bucketData.capacity();
+    if (cap == 0) {
+        return false;
+    }
+    std::size_t bucketHash = std::hash<std::string>()(key) % cap;
+    for (size_t i = 0; i< cap; i++) {
+        size_t currProbeOffset = (i == 0) ? 0 : probeOffsets[i-1];
+        size_t index = (bucketHash + currProbeOffset) % cap;
+
+        HashTableBucket& bucket = bucketData[index];
+        if (bucket.type == HashTableBucket::BucketType::ESS) {
+            return false;
+        }
+        if (bucket.type == HashTableBucket::BucketType::NORMAL && bucket.key == key) {
+            bucket.type = HashTableBucket::BucketType::EAR;
+            bucket.key.clear();
+            bucket.value = 0;
+            numElts--;
+            return true;
+        }
+    }
+
+ return false;
 }
+
+
 bool HashTable::contains(const std::string& key) const {
 return false;
 }
-
+//TODO
 std::optional<size_t> HashTable::get(const std::string& key) const {
 
 }
