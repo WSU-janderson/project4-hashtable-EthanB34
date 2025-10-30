@@ -55,10 +55,10 @@ bool HashTable::remove(std::string key) {
     }
     std::size_t bucketHash = std::hash<std::string>()(key) % cap;
     for (size_t i = 0; i< cap; i++) {
-        size_t currProbeOffset = (i == 0) ? 0 : probeOffsets[i-1];
-        size_t index = (bucketHash + currProbeOffset) % cap;
+        size_t bucketOffset = (i == 0) ? 0 : probeOffsets[i-1];
+        size_t currProbeOffset = (bucketHash + bucketOffset) % cap;
 
-        HashTableBucket& bucket = bucketData[index];
+        HashTableBucket& bucket = bucketData[currProbeOffset];
         if (bucket.type == HashTableBucket::BucketType::ESS) {
             return false;
         }
@@ -76,7 +76,25 @@ bool HashTable::remove(std::string key) {
 
 
 bool HashTable::contains(const std::string& key) const {
-return false;
+const std::size_t cap = bucketData.capacity();
+    if (cap == 0) {
+        return false;
+    }
+    const size_t bucketHash = std::hash<std::string>()(key) % cap;
+    for (size_t i = 0; i < cap; i++) {
+        size_t currProbeOffset = 0;
+        size_t bucketOffset = (i == 0) ? 0 : probeOffsets[i-1];
+         currProbeOffset = (bucketHash + bucketOffset) % cap;
+        const HashTableBucket& bucket = bucketData[currProbeOffset];
+if (bucket.type == HashTableBucket::BucketType::ESS) {
+    return false;
+}
+        if (bucket.type == HashTableBucket::BucketType::NORMAL && bucket.key == key) {
+            return true;
+        }
+
+    }
+    return false;
 }
 //TODO
 std::optional<size_t> HashTable::get(const std::string& key) const {
