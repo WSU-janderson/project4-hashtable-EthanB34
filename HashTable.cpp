@@ -20,6 +20,26 @@ HashTable::HashTable(size_t initCapacity)
 }
 
 bool HashTable::insert(std::string key, size_t value) {
+    std::hash<std::string> h;
+    size_t bucketHash = h(key) & bucketData.size();
+    for (size_t i = 0; i < bucketData.size(); i++) {
+        size_t bucketOffset =  (i==0) ? 0 : probeOffsets[i-1];
+        size_t currProbeOffset = (bucketHash + bucketOffset) % bucketData.size();
+
+        HashTableBucket& bucket = bucketData[currProbeOffset];
+
+        if (bucket.type == HashTableBucket::BucketType::ESS) {
+            bucket.key = key;
+            bucket.value = value;
+            bucket.type = HashTableBucket::BucketType::NORMAL;
+            numElts++;
+            return true;
+        }
+        if (bucket.type == HashTableBucket::BucketType::NORMAL && bucket.key == key) {
+            return false;
+        }
+
+    }
 return false;
 }
 
