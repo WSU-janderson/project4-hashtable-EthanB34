@@ -19,7 +19,7 @@ HashTable::HashTable(size_t initCapacity)
 
 
 }
-
+//TODO: Calculate time complexity
 bool HashTable::insert(std::string key, size_t value) {
     std::hash<std::string> h;
     size_t bucketHash = h(key) & bucketData.size();
@@ -47,7 +47,7 @@ bool HashTable::insert(std::string key, size_t value) {
 return false;
 }
 
-
+//TODO: Calculate time complexity
 bool HashTable::remove(std::string key) {
     const size_t size = bucketData.size();
     if (size == 0) {
@@ -55,13 +55,11 @@ bool HashTable::remove(std::string key) {
     }
     std::size_t bucketHash = std::hash<std::string>()(key) % size;
     for (size_t i = 0; i< size; i++) {
-        size_t bucketOffset = (i == 0) ? 0 : probeOffsets[i-1];
+        size_t bucketOffset =   (i==0) ? 0 : probeOffsets[i];
         size_t currProbeOffset = (bucketHash + bucketOffset) % size;
 
         HashTableBucket& bucket = bucketData[currProbeOffset];
-        if (bucket.type == HashTableBucket::BucketType::ESS) {
-            return false;
-        }
+
         if (bucket.type == HashTableBucket::BucketType::NORMAL && bucket.key == key) {
             bucket.type = HashTableBucket::BucketType::EAR;
             bucket.key.clear();
@@ -74,7 +72,7 @@ bool HashTable::remove(std::string key) {
  return false;
 }
 
-
+//TODO: calculate time complexity
 bool HashTable::contains(const std::string& key) const {
 const std::size_t size = bucketData.size();
     if (size == 0) {
