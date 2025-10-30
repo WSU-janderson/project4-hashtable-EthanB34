@@ -46,17 +46,17 @@ bool HashTable::insert(std::string key, size_t value) {
     }
 return false;
 }
-//TODO
+
 
 bool HashTable::remove(std::string key) {
-    const size_t cap = bucketData.capacity();
-    if (cap == 0) {
+    const size_t size = bucketData.size();
+    if (size == 0) {
         return false;
     }
-    std::size_t bucketHash = std::hash<std::string>()(key) % cap;
-    for (size_t i = 0; i< cap; i++) {
+    std::size_t bucketHash = std::hash<std::string>()(key) % size;
+    for (size_t i = 0; i< size; i++) {
         size_t bucketOffset = (i == 0) ? 0 : probeOffsets[i-1];
-        size_t currProbeOffset = (bucketHash + bucketOffset) % cap;
+        size_t currProbeOffset = (bucketHash + bucketOffset) % size;
 
         HashTableBucket& bucket = bucketData[currProbeOffset];
         if (bucket.type == HashTableBucket::BucketType::ESS) {
@@ -76,15 +76,15 @@ bool HashTable::remove(std::string key) {
 
 
 bool HashTable::contains(const std::string& key) const {
-const std::size_t cap = bucketData.capacity();
-    if (cap == 0) {
+const std::size_t size = bucketData.size();
+    if (size == 0) {
         return false;
     }
-    const size_t bucketHash = std::hash<std::string>()(key) % cap;
-    for (size_t i = 0; i < cap; i++) {
-        size_t currProbeOffset = 0;
-        size_t bucketOffset = (i == 0) ? 0 : probeOffsets[i-1];
-         currProbeOffset = (bucketHash + bucketOffset) % cap;
+    const size_t bucketHash = std::hash<std::string>()(key) % size;
+    for (size_t i = 0; i < size; i++) {
+        size_t currProbeOffset = probeOffsets[i];
+        size_t bucketOffset = (bucketHash + currProbeOffset) %size;
+
         const HashTableBucket& bucket = bucketData[currProbeOffset];
 if (bucket.type == HashTableBucket::BucketType::ESS) {
     return false;
@@ -96,14 +96,34 @@ if (bucket.type == HashTableBucket::BucketType::ESS) {
     }
     return false;
 }
-//TODO
+
 std::optional<size_t> HashTable::get(const std::string& key) const {
+    size_t size = bucketData.size();
+    std::size_t bucketHash = std::hash<std::string>()(key) % size;
+    for (size_t i = 0; i < size; i++) {
+        size_t currProbeOffset = probeOffsets[i];
+        size_t bucketOffset = (bucketHash + currProbeOffset) % size;
+
+        const HashTableBucket& bucket = bucketData[bucketOffset];
+
+
+        if (bucket.type == HashTableBucket::BucketType::NORMAL && bucket.key == key) {
+            return(bucket.value);
+        }
+
+    }
+    return std::nullopt;
+
+
+
 
 }
 size_t& HashTable::operator[](const std::string& key) {
-std:: size_t bucketHash = std::hash<std::string>()(key) % bucketData.size();
-    for (size_t probe = 1; probe < bucketData.size(); probe++) {
-        size_t bucketOffset = (bucketHash + probeOffsets[probe]) % bucketData.size();
+size_t size = bucketData.size();
+std:: size_t bucketHash = std::hash<std::string>()(key) % size;
+    for (size_t i = 0; i < size; i++) {
+        size_t bucketOffset = probeOffsets[i];
+        size_t currProbeOffset = (bucketHash + bucketOffset) % size;
         HashTableBucket& bucket = bucketData[bucketOffset];
         if (bucket.type == HashTableBucket::BucketType::NORMAL) {
             return bucket.value;
