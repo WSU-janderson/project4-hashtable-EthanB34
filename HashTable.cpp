@@ -8,7 +8,8 @@
 #include <random>
 #include <string>
 #include <vector>
-
+#include <iostream>
+#include <sstream>
 
 
 HashTable::HashTable(size_t initCapacity)
@@ -57,9 +58,33 @@ std::optional<size_t> HashTable::get(const std::string& key) const {
 
 }
 size_t& HashTable::operator[](const std::string& key) {
+std:: size_t bucketHash = std::hash<std::string>()(key) % bucketData.size();
+    for (size_t probe = 1; probe < bucketData.size(); probe++) {
+        size_t bucketOffset = (bucketHash + probeOffsets[probe]) % bucketData.size();
+        HashTableBucket& bucket = bucketData[bucketOffset];
+        if (bucket.type == HashTableBucket::BucketType::NORMAL) {
+            return bucket.value;
+        } else {
+            throw std::out_of_range("HashTable::get: Key not found");
+        }
 
+        }
+    }
+
+std::ostream& operator<<(std::ostream& os, const HashTable& hashTable) {
+    os << hashTable.printMe();
+    return os;
 }
+std::string HashTable::printMe() const {
+std::ostringstream oss;
+    for (std::size_t i = 0; i < bucketData.size(); i++) {
+        if (const HashTableBucket& bucket = bucketData[i]; bucket.type == HashTableBucket::BucketType::NORMAL) {
+            oss << "Bucket: " << i << " <" << bucket.key << ", " << bucket.value << ">" << "\n";
+        }
+    }
 
+    return oss.str();
+}
 std::vector<std::string> HashTable::keys() const {
     std::vector<std::string> result;
     result.reserve(numElts);

@@ -12,12 +12,12 @@ int main() {
     ht.insert("dilly", 999);
     ht.insert("solly", 999);
     ht.insert("zilly", 999);
-    ht.insert("chilly", 999);
-    ht.insert("wally", 999);
-    ht.insert("willy", 999);
+
 
 std::vector<std::string> keys = ht.keys();
-
+std::cout << ht << std::endl;
+    ht["zilly"] = 777;
+    std::cout << ht << std::endl;
 
 
 

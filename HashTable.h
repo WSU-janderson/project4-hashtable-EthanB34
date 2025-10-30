@@ -39,12 +39,13 @@ public:
     size_t& operator[](const std::string& key);
 
     std::vector<std::string> keys() const;
-
+    std::string printMe() const;
     double alpha() const;
 
     size_t capacity() const;
     size_t size() const;
     void resize(size_t newCapacity);
+    friend std::ostream& operator<<(std::ostream& os, const HashTable& hashTable);
 
 private:
     std::vector<HashTableBucket> bucketData;
