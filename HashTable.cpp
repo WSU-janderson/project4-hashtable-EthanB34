@@ -61,8 +61,16 @@ size_t& HashTable::operator[](const std::string& key) {
 }
 
 std::vector<std::string> HashTable::keys() const {
-    return{};
+    std::vector<std::string> result;
+    result.reserve(numElts);
+    for (std::size_t i = 0; i < bucketData.size(); i++) {
+    const HashTableBucket& bucket = bucketData[i];
+        if (bucket.type == HashTableBucket::BucketType::NORMAL) {
+            result.push_back(bucket.key);
+        }
+    }
 
+    return result;
 }
 
 double HashTable::alpha() const {
