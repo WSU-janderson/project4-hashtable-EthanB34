@@ -44,7 +44,7 @@ public:
 
     size_t capacity() const;
     size_t size() const;
-
+    void resize(size_t newCapacity);
 
 private:
     std::vector<HashTableBucket> bucketData;

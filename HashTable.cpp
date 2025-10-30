@@ -33,6 +33,9 @@ bool HashTable::insert(std::string key, size_t value) {
             bucket.value = value;
             bucket.type = HashTableBucket::BucketType::NORMAL;
             numElts++;
+            if (alpha() > 0.5) {
+                resize(bucketData.size()*2);
+            }
             return true;
         }
         if (bucket.type == HashTableBucket::BucketType::NORMAL && bucket.key == key) {
@@ -63,14 +66,14 @@ std::vector<std::string> HashTable::keys() const {
 }
 
 double HashTable::alpha() const {
-return 0.0;
+return static_cast<double>(numElts) / bucketData.size();
 }
 size_t HashTable::capacity() const {
-return 0;
+return bucketData.size() - numElts;
 }
 
 size_t HashTable::size() const {
-return 0;
+return numElts;
 }
 void HashTable::generateProbeOffset(size_t capacity) {
     probeOffsets.clear();
@@ -84,7 +87,17 @@ void HashTable::generateProbeOffset(size_t capacity) {
     std::shuffle(probeOffsets.begin(), probeOffsets.end(), gen);
 
 
+}
+void HashTable::resize(size_t newCapacity) {
+    std::vector<HashTableBucket> oldTable = bucketData;
 
-
-
+    bucketData.clear();
+    bucketData.resize(newCapacity);
+    numElts = 0;
+    generateProbeOffset(newCapacity);
+    for (const auto& bucket : oldTable) {
+        if (bucket.type == HashTableBucket::BucketType::NORMAL) {
+            insert(bucket.key, bucket.value);
+        }
+    }
 }

@@ -10,13 +10,14 @@
 int main() {
     HashTable ht;
     ht.insert("dilly", 999);
-    ht.insert("dally", 999);
-    ht.insert("billy", 999);
-    ht.insert("mike", 999);
-    ht.insert("rob", 999);
-    ht.insert("tom", 999);
-    ht.insert("sam", 999);
-    ht.insert("tally", 999);
+    ht.insert("solly", 999);
+    ht.insert("zilly", 999);
+    ht.insert("chilly", 999);
+    ht.insert("wally", 999);
+    ht.insert("willy", 999);
+
+
+
 
 
 
