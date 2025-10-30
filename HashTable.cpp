@@ -14,7 +14,6 @@
 HashTable::HashTable(size_t initCapacity)
     : bucketData(initCapacity), numElts(0)
 {
-    srand(time(nullptr));
     generateProbeOffset(initCapacity);
 
 
