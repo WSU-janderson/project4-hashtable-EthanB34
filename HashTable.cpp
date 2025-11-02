@@ -1,5 +1,6 @@
 /**
  * HashTable.cpp
+ *
  */
 #include "HashTable.h"
 
@@ -12,6 +13,11 @@
 #include <sstream>
 
 
+/*
+ *
+ *
+ *
+ */
 HashTable::HashTable(size_t initCapacity)
     : bucketData(initCapacity), numElts(0)
 {
@@ -19,7 +25,11 @@ HashTable::HashTable(size_t initCapacity)
 
 
 }
-//TODO: Calculate time complexity
+/*
+*
+*
+*
+ */
 bool HashTable::insert(std::string key, size_t value) {
     std::hash<std::string> h;
     size_t bucketHash = h(key) & bucketData.size();
@@ -47,7 +57,11 @@ bool HashTable::insert(std::string key, size_t value) {
 return false;
 }
 
-//TODO: Calculate time complexity
+/*
+*
+*
+*
+ */
 bool HashTable::remove(std::string key) {
     const size_t size = bucketData.size();
     if (size == 0) {
@@ -72,7 +86,11 @@ bool HashTable::remove(std::string key) {
  return false;
 }
 
-//TODO: calculate time complexity
+/*
+*
+*
+*
+ */
 bool HashTable::contains(const std::string& key) const {
 const std::size_t size = bucketData.size();
     if (size == 0) {
@@ -95,6 +113,11 @@ if (bucket.type == HashTableBucket::BucketType::ESS) {
     return false;
 }
 
+/*
+*
+*
+*
+ */
 std::optional<size_t> HashTable::get(const std::string& key) const {
     size_t size = bucketData.size();
     std::size_t bucketHash = std::hash<std::string>()(key) % size;
@@ -116,6 +139,11 @@ std::optional<size_t> HashTable::get(const std::string& key) const {
 
 
 }
+/*
+*
+*
+*
+ */
 size_t& HashTable::operator[](const std::string& key) {
 size_t size = bucketData.size();
 std:: size_t bucketHash = std::hash<std::string>()(key) % size;
@@ -131,11 +159,20 @@ std:: size_t bucketHash = std::hash<std::string>()(key) % size;
 
         }
     }
-
+/*
+*
+*
+*
+ */
 std::ostream& operator<<(std::ostream& os, const HashTable& hashTable) {
     os << hashTable.printMe();
     return os;
 }
+/*
+*
+*
+*
+ */
 std::string HashTable::printMe() const {
 std::ostringstream oss;
     for (std::size_t i = 0; i < bucketData.size(); i++) {
@@ -146,6 +183,11 @@ std::ostringstream oss;
 
     return oss.str();
 }
+/*
+*
+*
+*
+ */
 std::vector<std::string> HashTable::keys() const {
     std::vector<std::string> result;
     result.reserve(numElts);
@@ -158,17 +200,35 @@ std::vector<std::string> HashTable::keys() const {
 
     return result;
 }
-
+/*
+*
+*
+*
+ */
 double HashTable::alpha() const {
 return static_cast<double>(numElts) / bucketData.size();
 }
+/*
+*
+*
+*
+ */
 size_t HashTable::capacity() const {
 return bucketData.size() - numElts;
 }
-
+/*
+*
+*
+*
+ */
 size_t HashTable::size() const {
 return numElts;
 }
+/*
+*
+*
+*
+ */
 void HashTable::generateProbeOffset(size_t capacity) {
     probeOffsets.clear();
     for (size_t i = 1; i < capacity; i++) {
@@ -182,6 +242,11 @@ void HashTable::generateProbeOffset(size_t capacity) {
 
 
 }
+/*
+*
+*
+*
+ */
 void HashTable::resize(size_t newCapacity) {
     std::vector<HashTableBucket> oldTable = bucketData;
 
