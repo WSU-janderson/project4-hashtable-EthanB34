@@ -264,7 +264,7 @@ void HashTable::resize(size_t newCapacity) {
     bucketData.resize(newCapacity);
     numElts = 0;
     generateProbeOffset(newCapacity);
-    for (const auto& bucket : oldTable) {
+    for (const HashTableBucket& bucket : oldTable) {
         if (bucket.type == HashTableBucket::BucketType::NORMAL) {
             insert(bucket.key, bucket.value);
         }
