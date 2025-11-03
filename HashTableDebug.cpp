@@ -14,8 +14,13 @@ int main() {
     ht.insert("zilly", 999);
     ht.insert("willy", 999);
     ht.insert("billy", 989);
+    ht.remove("dilly");
+    ht.remove("solly");
+    ht.remove("zilly");
+    ht.remove("willy");
+    ht.remove("billy");
 
-    std::optional<size_t> num = ht.get("billy");
+    //std::optional<size_t> num = ht.get("billy");
 
         std::cout << std::endl;
 
@@ -24,12 +29,12 @@ int main() {
 
 
 
-    std::cout << ht << std::endl;
-    if (ht.contains("billy")) {
-        std::cout << *num << std::endl;
-    }
-    ht.remove("dilly");
-    ht["solly"] = 111;
+   // std::cout << ht << std::endl;
+   // if (ht.contains("billy")) {
+   //     std::cout << *num << std::endl;
+    //}
+   // ht.remove("dilly");
+   // ht["solly"] = 111;
     std::cout << ht<< std::endl;
     const size_t val = ht.capacity();
     std::cout << val << std::endl;

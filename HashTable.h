@@ -38,7 +38,10 @@ public:
 
 
 };
-/*
+/* class HashTable -
+ * contains the definitions for all of the HashTable functions
+ * bucketData, vector of hashtablebuckets, probeOffsets, vector of size_t to handle probing sequence
+ * numElts - number of key-value pairs held in the table
  *
  */
 class HashTable {
@@ -70,6 +73,8 @@ private:
     std::vector<HashTableBucket> bucketData;
     std::vector<size_t> probeOffsets;
     size_t numElts;
+
+
     void generateProbeOffset(std::size_t capacity);
 
 
