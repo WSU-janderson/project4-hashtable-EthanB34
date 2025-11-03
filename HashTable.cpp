@@ -214,7 +214,7 @@ return static_cast<double>(numElts) / bucketData.size();
 *
  */
 size_t HashTable::capacity() const {
-return bucketData.size() - numElts;
+return bucketData.size() ;
 }
 /*
 *

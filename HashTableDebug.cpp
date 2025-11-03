@@ -29,7 +29,12 @@ int main() {
         std::cout << *num << std::endl;
     }
     ht.remove("dilly");
+    ht["solly"] = 111;
     std::cout << ht<< std::endl;
+    const size_t val = ht.capacity();
+    std::cout << val << std::endl;
             std::cout << "Hello, World!" << std::endl;
+
+
             return 0;
         }
