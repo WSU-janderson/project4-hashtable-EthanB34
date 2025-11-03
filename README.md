@@ -19,16 +19,16 @@ unessercery tombstone probes.
 ```
 • contains
 ```
-1/1-a ?
+ O(1) for empty table, otherwise 1/1-a until a > 0.5, then becomes 0(2) on average, worst case o(n)
 ```
 • get
 ```
-1/1-a ?
+ O(1) for empty table, otherwise 1/1-a until a > 0.5, then becomes 0(2) on average, worst case o(n)
 
 ```
 • operator[]
 ```
-1/1-a ?
+ O(1) for empty table, otherwise 1/1-a until a > 0.5, then becomes 0(2) on average, worst case o(n)
 
 
 ---

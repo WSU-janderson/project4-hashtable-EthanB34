@@ -1,6 +1,27 @@
-/**
- * HashTable.cpp
+/** Student Name: Ethan Barnes
+* Project 4: Hash Table
+ * File Name: HashTable.cpp
  *
+ *This file implements the hash table class, its declarations are stored in HashTable.h
+ *
+ *Functions:
+ *insert - The first insert always ends up in the first bucket, then after that the pseudo random probing sequence is used,
+ to mitigate clustering, and once the table reaches a load factor of greater than 0.5, or for a default table of size 8
+ when it reaches 5 elements, the table size is doubled and thus the average number of probes remains a constant after every
+ *subsequent insert
+ *
+ *remove-Traverses the table in search of a normal pair that matches the provided key, and erases the key value pair from the
+ *table, and marks it Empty After Remove
+ *
+ *contains - traverses the table in search of a normal pair that matches the provided key, but returns true or false value.
+ *
+ *get -  traverses the table in search of a normal pair that matches the provided key, and returns that value.
+ *
+ *operator[] overload -  similar to get, but returns a reference allowing for value assigment
+ *
+ *operator << overload - Prints all of the key value pairs in the following format "Bucket: 9 <bobby, 999>
+ *
+ * Variables : numElts - number of key, value pairs currently held in the table
  */
 #include "HashTable.h"
 
@@ -165,23 +186,12 @@ std:: size_t bucketHash = std::hash<std::string>()(key) % size;
 *
  */
 std::ostream& operator<<(std::ostream& os, const HashTable& hashTable) {
-    os << hashTable.printMe();
-    return os;
-}
-/*
-*
-*
-*
- */
-std::string HashTable::printMe() const {
-std::ostringstream oss;
-    for (std::size_t i = 0; i < bucketData.size(); i++) {
-        if (const HashTableBucket& bucket = bucketData[i]; bucket.type == HashTableBucket::BucketType::NORMAL) {
-            oss << "Bucket: " << i << " <" << bucket.key << ", " << bucket.value << ">" << "\n";
+    for (std::size_t i = 0; i < hashTable.bucketData.size(); i++) {
+        if (const HashTableBucket& bucket = hashTable.bucketData[i]; bucket.type == HashTableBucket::BucketType::NORMAL) {
+            os << "Bucket: " << i << " <" << bucket.key << ", " << bucket.value << ">" << "\n";
         }
     }
-
-    return oss.str();
+    return os;
 }
 /*
 *
