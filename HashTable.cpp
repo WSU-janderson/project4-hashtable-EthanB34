@@ -94,7 +94,7 @@ bool HashTable::remove(std::string key) {
 //PROBE SEQUENCE
     std::size_t bucketHash = std::hash<std::string>()(key) % size;
     for (size_t i = 0; i< size; i++) {
-        size_t bucketOffset =   (i==0) ? 0 : probeOffsets[i];
+        size_t bucketOffset =   (i==0) ? 0 : probeOffsets[i-1];
         size_t currProbeOffset = (bucketHash + bucketOffset) % size;
         HashTableBucket& bucket = bucketData[currProbeOffset];
 
